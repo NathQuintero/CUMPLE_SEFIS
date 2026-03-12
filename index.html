@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para mi Chiquibaby 💙</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Space+Mono:wght@400;700&family=Nunito:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue-deep: #0a0f2e;
+  --blue-mid: #1a2456;
+  --blue-bright: #1e40af;
+  --blue-electric: #3b82f6;
+  --blue-glow: #60a5fa;
+  --gold: #f59e0b;
+  --gold-light: #fcd34d;
+  --white: #f0f4ff;
+  --pink: #f472b6;
+  --green: #34d399;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--blue-deep); color:var(--white); font-family:'Nunito',sans-serif; min-height:100vh; overflow-x:hidden; }
+
+/* STARS */
+.stars { position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+.star { position:absolute; background:white; border-radius:50%; animation:twinkle var(--dur,3s) ease-in-out infinite var(--delay,0s); }
+@keyframes twinkle { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:1;transform:scale(1.4)} }
+
+/* LOGIN */
+#login-screen { position:fixed; inset:0; z-index:1000; display:flex; align-items:center; justify-content:center; background:radial-gradient(ellipse at center,#0d1847 0%,#020817 100%); transition:opacity 0.8s ease; }
+.login-card { background:rgba(255,255,255,0.04); backdrop-filter:blur(20px); border:1px solid rgba(96,165,250,0.3); border-radius:24px; padding:48px 40px; width:90%; max-width:420px; text-align:center; box-shadow:0 0 60px rgba(59,130,246,0.2),inset 0 1px 0 rgba(255,255,255,0.1); animation:cardFloat 6s ease-in-out infinite; }
+@keyframes cardFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+.login-logo { font-size:56px; margin-bottom:8px; animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+.login-title { font-family:'Playfair Display',serif; font-size:28px; color:var(--blue-glow); margin-bottom:6px; }
+.login-subtitle { font-size:12px; color:rgba(255,255,255,0.4); margin-bottom:32px; letter-spacing:2px; text-transform:uppercase; }
+.input-group { position:relative; margin-bottom:16px; }
+.input-group label { position:absolute; left:16px; top:50%; transform:translateY(-50%); font-size:18px; pointer-events:none; }
+.login-input { width:100%; padding:14px 16px 14px 46px; background:rgba(255,255,255,0.07); border:1px solid rgba(96,165,250,0.25); border-radius:12px; color:white; font-family:'Space Mono',monospace; font-size:14px; outline:none; transition:all 0.3s; letter-spacing:1px; }
+.login-input:focus { border-color:var(--blue-electric); background:rgba(59,130,246,0.1); box-shadow:0 0 20px rgba(59,130,246,0.2); }
+.login-input::placeholder { color:rgba(255,255,255,0.25); letter-spacing:0; }
+.login-btn { width:100%; padding:14px; background:linear-gradient(135deg,var(--blue-bright),var(--blue-electric)); border:none; border-radius:12px; color:white; font-family:'Nunito',sans-serif; font-size:16px; font-weight:700; cursor:pointer; margin-top:8px; transition:all 0.3s; letter-spacing:1px; position:relative; overflow:hidden; }
+.login-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(59,130,246,0.4); }
+.login-error { color:#f87171; font-size:13px; margin-top:10px; height:18px; }
+.login-hint { margin-top:20px; font-size:11px; color:rgba(255,255,255,0.2); font-family:'Space Mono',monospace; }
+
+/* APP */
+#app { display:none; position:relative; z-index:1; }
+
+/* HERO */
+.hero { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 20px; position:relative; overflow:hidden; }
+.hero-bg-circle { position:absolute; border-radius:50%; filter:blur(80px); opacity:0.15; pointer-events:none; }
+.hero-bg-circle.c1 { width:500px; height:500px; background:var(--blue-electric); top:-100px; left:-100px; }
+.hero-bg-circle.c2 { width:400px; height:400px; background:var(--gold); bottom:-100px; right:-100px; }
+.hero-bg-circle.c3 { width:300px; height:300px; background:var(--pink); top:50%; left:50%; transform:translate(-50%,-50%); }
+.hero-tag { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:4px; color:var(--blue-glow); text-transform:uppercase; margin-bottom:20px; opacity:0; animation:fadeUp 0.8s ease 0.3s forwards; }
+.hero-title { font-family:'Playfair Display',serif; font-size:clamp(36px,8vw,80px); text-align:center; line-height:1.1; margin-bottom:16px; opacity:0; animation:fadeUp 0.8s ease 0.5s forwards; }
+.hero-title .gold { color:var(--gold-light); font-style:italic; }
+.hero-title .blue { color:var(--blue-glow); }
+.hero-subtitle { font-size:clamp(14px,3vw,18px); color:rgba(255,255,255,0.6); text-align:center; max-width:500px; margin-bottom:48px; opacity:0; animation:fadeUp 0.8s ease 0.7s forwards; line-height:1.6; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+
+/* COUNTDOWN */
+.countdown-container { display:flex; gap:clamp(12px,3vw,24px); margin-bottom:60px; opacity:0; animation:fadeUp 0.8s ease 0.9s forwards; }
+.countdown-item { text-align:center; background:rgba(255,255,255,0.05); border:1px solid rgba(96,165,250,0.2); border-radius:16px; padding:clamp(16px,3vw,24px) clamp(20px,4vw,36px); backdrop-filter:blur(10px); position:relative; overflow:hidden; }
+.countdown-item::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--blue-electric),transparent); }
+.countdown-number { font-family:'Space Mono',monospace; font-size:clamp(32px,8vw,64px); font-weight:700; color:var(--blue-glow); line-height:1; text-shadow:0 0 30px rgba(96,165,250,0.5); display:block; }
+.countdown-label { font-size:clamp(10px,2vw,12px); letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:6px; display:block; }
+.birthday-msg { background:linear-gradient(135deg,var(--gold),var(--gold-light)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; font-family:'Playfair Display',serif; font-size:clamp(24px,6vw,48px); font-style:italic; text-align:center; animation:glow 2s ease-in-out infinite; }
+@keyframes glow { 0%,100%{filter:drop-shadow(0 0 10px rgba(245,158,11,0.4))} 50%{filter:drop-shadow(0 0 25px rgba(245,158,11,0.8))} }
+
+/* AUDIO */
+.audio-bar { display:flex; align-items:center; justify-content:center; gap:12px; padding:16px 24px; background:rgba(255,255,255,0.04); border:1px solid rgba(96,165,250,0.2); border-radius:50px; margin:0 auto 40px; max-width:400px; cursor:pointer; transition:all 0.3s; }
+.audio-bar:hover { background:rgba(59,130,246,0.1); border-color:var(--blue-electric); }
+.audio-bar-text { font-family:'Space Mono',monospace; font-size:12px; color:rgba(255,255,255,0.6); }
+.audio-waves { display:flex; align-items:center; gap:3px; }
+.audio-wave { width:3px; background:var(--blue-electric); border-radius:2px; animation:waveAnim 1s ease-in-out infinite; }
+.audio-wave:nth-child(1){height:8px;animation-delay:0s} .audio-wave:nth-child(2){height:16px;animation-delay:.1s} .audio-wave:nth-child(3){height:12px;animation-delay:.2s} .audio-wave:nth-child(4){height:20px;animation-delay:.3s} .audio-wave:nth-child(5){height:10px;animation-delay:.4s}
+@keyframes waveAnim { 0%,100%{transform:scaleY(0.5)} 50%{transform:scaleY(1)} }
+.audio-paused .audio-wave { animation-play-state:paused; }
+
+/* SECTIONS */
+.section { padding:80px 20px; max-width:1100px; margin:0 auto; }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,48px); text-align:center; margin-bottom:12px; color:var(--blue-glow); }
+.section-divider { width:60px; height:3px; background:linear-gradient(90deg,var(--blue-electric),var(--gold)); margin:0 auto 48px; border-radius:2px; }
+.section-separator { width:100%; height:1px; background:linear-gradient(90deg,transparent,rgba(96,165,250,0.2),transparent); }
+
+/* POLAROID */
+.polaroid-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:24px; padding:20px 0; }
+.polaroid { background:white; padding:12px 12px 40px; border-radius:2px; box-shadow:0 8px 32px rgba(0,0,0,0.4); transform:rotate(var(--rot,-3deg)); transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1); cursor:pointer; position:relative; }
+.polaroid:hover { transform:rotate(0deg) scale(1.05) translateY(-10px); box-shadow:0 20px 60px rgba(59,130,246,0.4); z-index:10; }
+.polaroid-img { width:100%; aspect-ratio:1; background:linear-gradient(135deg,#1a2456,#3b82f6); border-radius:1px; display:flex; align-items:center; justify-content:center; font-size:48px; overflow:hidden; }
+.polaroid-img img { width:100%; height:100%; object-fit:cover; }
+.polaroid-caption { position:absolute; bottom:8px; left:0; right:0; text-align:center; color:#333; font-family:'Space Mono',monospace; font-size:10px; padding:0 8px; }
+
+/* PROGRESS */
+.progress-section { padding:40px 20px; max-width:800px; margin:0 auto; }
+.progress-label { display:flex; justify-content:space-between; margin-bottom:8px; font-family:'Space Mono',monospace; font-size:12px; color:rgba(255,255,255,0.5); }
+.progress-bar { height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden; }
+.progress-fill { height:100%; background:linear-gradient(90deg,var(--blue-electric),var(--gold)); border-radius:4px; transition:width 1s ease; }
+
+/* DAYS GRID */
+.days-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.day-card { border-radius:20px; padding:28px; cursor:pointer; transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1); position:relative; overflow:hidden; border:1px solid transparent; }
+.day-card.unlocked { background:rgba(30,64,175,0.2); border-color:rgba(96,165,250,0.4); }
+.day-card.unlocked:hover { transform:translateY(-6px) scale(1.02); box-shadow:0 20px 40px rgba(59,130,246,0.3); border-color:var(--blue-electric); }
+.day-card.locked { background:rgba(255,255,255,0.03); border-color:rgba(255,255,255,0.08); cursor:not-allowed; }
+.day-card.completed { background:rgba(52,211,153,0.08); border-color:rgba(52,211,153,0.35); }
+.day-card.completed:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(52,211,153,0.2); }
+.day-number { font-family:'Space Mono',monospace; font-size:12px; letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; }
+.day-card.unlocked .day-number { color:var(--blue-glow); }
+.day-card.locked .day-number { color:rgba(255,255,255,0.15); }
+.day-card.completed .day-number { color:var(--green); }
+.day-icon { font-size:40px; margin-bottom:12px; display:block; }
+.day-title { font-family:'Playfair Display',serif; font-size:20px; margin-bottom:8px; }
+.day-card.locked .day-title { color:rgba(255,255,255,0.15); }
+.day-desc { font-size:14px; line-height:1.6; color:rgba(255,255,255,0.55); }
+.day-card.locked .day-desc { color:rgba(255,255,255,0.12); }
+.day-status { position:absolute; top:20px; right:20px; font-size:20px; }
+.day-badge { display:inline-flex; align-items:center; gap:6px; margin-top:12px; padding:5px 12px; background:rgba(245,158,11,0.15); border:1px solid rgba(245,158,11,0.3); border-radius:20px; font-size:12px; color:var(--gold-light); font-family:'Space Mono',monospace; }
+
+/* PISTAS BOARD */
+.pistas-board { background:rgba(255,255,255,0.02); border:1px solid rgba(245,158,11,0.2); border-radius:24px; padding:40px; }
+.pistas-board-title { font-family:'Playfair Display',serif; font-size:clamp(20px,4vw,30px); color:var(--gold-light); margin-bottom:8px; text-align:center; }
+.pistas-board-sub { text-align:center; color:rgba(255,255,255,0.35); font-size:13px; margin-bottom:32px; font-family:'Space Mono',monospace; letter-spacing:1px; }
+.pistas-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:14px; }
+.pista-card { border-radius:16px; padding:20px; border:1px solid rgba(255,255,255,0.07); transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1); }
+.pista-card.locked-pista { background:rgba(255,255,255,0.02); }
+.pista-card.revealed { background:rgba(245,158,11,0.08); border-color:rgba(245,158,11,0.35); box-shadow:0 4px 20px rgba(245,158,11,0.1); }
+.pista-card.revealed:hover { transform:translateY(-4px); box-shadow:0 12px 30px rgba(245,158,11,0.2); }
+.pista-num { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:2px; text-transform:uppercase; margin-bottom:10px; }
+.pista-card.locked-pista .pista-num { color:rgba(255,255,255,0.2); }
+.pista-card.revealed .pista-num { color:var(--gold); }
+.pista-lock-icon { font-size:28px; margin-bottom:8px; }
+.pista-lock-text { color:rgba(255,255,255,0.2); font-size:13px; line-height:1.5; }
+.pista-text { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(13px,2.2vw,16px); line-height:1.7; color:var(--gold-light); }
+.pista-from { margin-top:10px; font-family:'Space Mono',monospace; font-size:10px; color:rgba(245,158,11,0.4); }
+@keyframes pistaRevealAnim { 0%{transform:scale(0.8) rotate(-2deg);opacity:0} 60%{transform:scale(1.05) rotate(1deg)} 100%{transform:scale(1) rotate(0deg);opacity:1} }
+.pista-pop { animation:pistaRevealAnim 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+/* MODAL */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:900; display:flex; align-items:center; justify-content:center; padding:16px; opacity:0; pointer-events:none; transition:opacity 0.3s; backdrop-filter:blur(8px); }
+.modal-overlay.active { opacity:1; pointer-events:all; }
+.modal { background:linear-gradient(145deg,#0d1847,#1a2456); border:1px solid rgba(96,165,250,0.3); border-radius:24px; padding:36px; width:100%; max-width:700px; max-height:92vh; overflow-y:auto; transform:scale(0.9) translateY(20px); transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1); position:relative; box-shadow:0 0 80px rgba(59,130,246,0.3); }
+.modal-overlay.active .modal { transform:scale(1) translateY(0); }
+.modal-close { position:absolute; top:16px; right:16px; background:rgba(255,255,255,0.1); border:none; color:white; width:36px; height:36px; border-radius:50%; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.2s; }
+.modal-close:hover { background:rgba(255,255,255,0.2); }
+.modal-day-label { font-family:'Space Mono',monospace; font-size:11px; letter-spacing:3px; color:var(--blue-glow); text-transform:uppercase; margin-bottom:8px; }
+.modal-title { font-family:'Playfair Display',serif; font-size:clamp(22px,5vw,34px); margin-bottom:16px; color:white; }
+.modal-message { font-size:15px; line-height:1.8; color:rgba(255,255,255,0.7); margin-bottom:24px; padding:18px 20px; background:rgba(255,255,255,0.04); border-radius:12px; border-left:3px solid var(--blue-electric); }
+
+/* PISTA REVEAL in modal */
+.pista-reveal-box { margin-top:28px; border-radius:18px; overflow:hidden; border:2px solid rgba(245,158,11,0.5); display:none; }
+.pista-reveal-header { background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(245,158,11,0.08)); padding:14px 22px; display:flex; align-items:center; gap:12px; }
+.pista-reveal-icon { font-size:26px; }
+.pista-reveal-label { font-family:'Space Mono',monospace; font-size:12px; letter-spacing:2px; color:var(--gold); text-transform:uppercase; }
+.pista-reveal-body { padding:24px; background:rgba(245,158,11,0.05); }
+.pista-reveal-text { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(15px,3vw,21px); line-height:1.8; color:var(--gold-light); text-align:center; margin-bottom:10px; }
+.pista-reveal-hint { text-align:center; font-size:13px; color:rgba(255,255,255,0.35); font-family:'Space Mono',monospace; }
+@keyframes slideReveal { 0%{opacity:0;transform:translateY(16px) scale(0.97)} 60%{transform:translateY(-3px) scale(1.01)} 100%{opacity:1;transform:translateY(0) scale(1)} }
+.slide-in { animation:slideReveal 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+
+/* QUIZ */
+.quiz-question { font-size:18px; font-weight:700; color:white; margin-bottom:20px; text-align:center; line-height:1.5; }
+.quiz-options { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px; }
+.quiz-option { padding:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(96,165,250,0.2); border-radius:12px; color:white; font-family:'Nunito',sans-serif; font-size:15px; cursor:pointer; transition:all 0.3s; text-align:center; }
+.quiz-option:hover:not(.disabled) { background:rgba(59,130,246,0.2); border-color:var(--blue-electric); transform:translateY(-2px); }
+.quiz-option.correct { background:rgba(52,211,153,0.2); border-color:#34d399; color:#6ee7b7; }
+.quiz-option.wrong { background:rgba(248,113,113,0.2); border-color:#f87171; color:#fca5a5; }
+.quiz-option.disabled { cursor:default; }
+.quiz-score { text-align:center; font-family:'Space Mono',monospace; font-size:13px; color:var(--blue-glow); margin-bottom:12px; }
+.quiz-feedback { text-align:center; font-size:15px; min-height:24px; margin-bottom:16px; font-weight:700; }
+.btn-next { display:block; margin:0 auto; padding:12px 32px; background:linear-gradient(135deg,var(--blue-bright),var(--blue-electric)); border:none; border-radius:12px; color:white; font-family:'Nunito',sans-serif; font-size:15px; font-weight:700; cursor:pointer; transition:all 0.3s; }
+.btn-next:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(59,130,246,0.4); }
+
+/* SOPA */
+.ws-row { display:flex; gap:3px; margin-bottom:3px; }
+.ws-cell { width:clamp(25px,5vw,34px); height:clamp(25px,5vw,34px); display:flex; align-items:center; justify-content:center; font-family:'Space Mono',monospace; font-size:clamp(10px,2vw,13px); font-weight:700; background:rgba(255,255,255,0.06); border:1px solid rgba(96,165,250,0.15); border-radius:4px; cursor:pointer; transition:all 0.15s; user-select:none; color:var(--white); }
+.ws-cell:hover { background:rgba(96,165,250,0.2); }
+.ws-cell.selecting { background:rgba(59,130,246,0.4); border-color:var(--blue-electric); }
+.ws-cell.found-0{background:rgba(245,158,11,0.35);border-color:var(--gold);color:var(--gold-light)}
+.ws-cell.found-1{background:rgba(244,114,182,0.35);border-color:var(--pink);color:var(--pink)}
+.ws-cell.found-2{background:rgba(52,211,153,0.35);border-color:#34d399;color:#6ee7b7}
+.ws-cell.found-3{background:rgba(167,139,250,0.35);border-color:#a78bfa;color:#c4b5fd}
+.ws-cell.found-4{background:rgba(251,146,60,0.35);border-color:#fb923c;color:#fed7aa}
+.ws-cell.found-5{background:rgba(96,165,250,0.35);border-color:var(--blue-glow);color:#bfdbfe}
+.word-list { display:flex; flex-wrap:wrap; gap:8px; margin:16px 0; justify-content:center; }
+.word-tag { font-family:'Space Mono',monospace; font-size:12px; padding:5px 12px; border-radius:20px; border:1px solid rgba(96,165,250,0.3); color:rgba(255,255,255,0.6); background:rgba(255,255,255,0.04); transition:all 0.3s; }
+.word-tag.found { border-color:var(--gold); color:var(--gold); text-decoration:line-through; background:rgba(245,158,11,0.1); }
+
+/* COMPLETAR */
+.complete-phrase { font-size:clamp(14px,2.5vw,19px); text-align:center; line-height:2.6; margin:10px 0; font-family:'Playfair Display',serif; color:rgba(255,255,255,0.85); }
+.phrase-blank { display:inline-block; min-width:90px; border-bottom:2px solid var(--blue-electric); margin:0 4px; }
+.phrase-input { background:transparent; border:none; outline:none; color:var(--blue-glow); font-family:'Playfair Display',serif; font-size:inherit; font-style:italic; text-align:center; width:100%; padding:0 4px; }
+.check-btn { display:block; margin:20px auto 0; padding:12px 32px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); border:none; border-radius:12px; color:var(--blue-deep); font-family:'Nunito',sans-serif; font-size:15px; font-weight:900; cursor:pointer; transition:all 0.3s; }
+.check-btn:hover { transform:translateY(-2px); box-shadow:0 8px 20px rgba(245,158,11,0.4); }
+
+/* CRUCIGRAMA */
+.crossword-container { overflow-x:auto; text-align:center; }
+.cw-row { display:flex; gap:2px; margin-bottom:2px; justify-content:center; }
+.cw-cell { width:clamp(26px,5vw,38px); height:clamp(26px,5vw,38px); background:rgba(255,255,255,0.08); border:1px solid rgba(96,165,250,0.2); border-radius:4px; display:flex; align-items:center; justify-content:center; position:relative; }
+.cw-cell.black { background:rgba(0,0,0,0.6); border-color:transparent; }
+.cw-cell input { width:100%; height:100%; background:transparent; border:none; text-align:center; color:white; font-family:'Space Mono',monospace; font-size:clamp(10px,2vw,15px); font-weight:700; outline:none; text-transform:uppercase; }
+.cw-cell input:focus { background:rgba(59,130,246,0.2); }
+.cw-cell input.correct-letter { color:#6ee7b7; }
+.cw-cell input.wrong-letter { color:#fca5a5; }
+.cw-number { position:absolute; top:1px; left:2px; font-size:7px; color:var(--blue-glow); font-family:'Space Mono',monospace; line-height:1; pointer-events:none; }
+.clues { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px; font-size:13px; line-height:1.9; }
+.clues h4 { font-family:'Space Mono',monospace; color:var(--blue-glow); font-size:11px; letter-spacing:2px; margin-bottom:10px; }
+.clue-item { color:rgba(255,255,255,0.6); margin-bottom:4px; }
+
+/* CELEBRATION */
+.celebration { text-align:center; padding:16px; animation:fadeUp 0.5s ease; }
+.celebration-emoji { font-size:60px; margin-bottom:12px; }
+.celebration-text { font-family:'Playfair Display',serif; font-size:24px; color:var(--gold-light); margin-bottom:8px; }
+.celebration-sub { font-size:15px; color:rgba(255,255,255,0.6); }
+
+/* CONFETTI */
+.confetti-piece { position:fixed; top:-10px; border-radius:2px; animation:confettiFall linear forwards; z-index:9999; pointer-events:none; }
+@keyframes confettiFall { 0%{top:-10px;opacity:1;transform:rotate(0deg) translateX(0)} 100%{top:105vh;opacity:0;transform:rotate(720deg) translateX(var(--x))} }
+
+/* LOVE NOTE */
+.love-note { background:rgba(255,255,255,0.04); border:1px solid rgba(244,114,182,0.3); border-radius:20px; padding:40px; text-align:center; position:relative; overflow:hidden; }
+.love-note::before { content:'💙'; position:absolute; font-size:200px; opacity:0.03; top:50%; left:50%; transform:translate(-50%,-50%); }
+.love-note-text { font-family:'Playfair Display',serif; font-size:clamp(16px,3vw,22px); line-height:1.9; color:rgba(255,255,255,0.85); font-style:italic; position:relative; z-index:1; }
+.love-note-sign { margin-top:20px; font-family:'Space Mono',monospace; font-size:14px; color:var(--pink); }
+
+/* UJUMM */
+.ujumm-bubble { position:fixed; bottom:24px; right:24px; background:linear-gradient(135deg,var(--blue-bright),var(--pink)); border-radius:50px; padding:12px 20px; font-size:20px; cursor:pointer; box-shadow:0 8px 32px rgba(0,0,0,0.3); z-index:500; transition:all 0.3s; animation:floatBtn 3s ease-in-out infinite; display:none; }
+@keyframes floatBtn { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+.ujumm-tooltip { position:fixed; bottom:80px; right:24px; background:rgba(30,64,175,0.95); border:1px solid rgba(96,165,250,0.4); border-radius:16px; padding:16px 20px; font-size:14px; max-width:200px; text-align:center; z-index:500; opacity:0; pointer-events:none; transition:opacity 0.3s; backdrop-filter:blur(10px); }
+.ujumm-tooltip.show { opacity:1; }
+
+/* FOOTER */
+.footer { padding:40px 20px; text-align:center; color:rgba(255,255,255,0.2); font-family:'Space Mono',monospace; font-size:11px; letter-spacing:2px; }
+
+::-webkit-scrollbar{width:6px} ::-webkit-scrollbar-track{background:rgba(255,255,255,0.05)} ::-webkit-scrollbar-thumb{background:var(--blue-electric);border-radius:3px}
+
+@media(max-width:600px){
+  .quiz-options{grid-template-columns:1fr}
+  .clues{grid-template-columns:1fr}
+  .modal{padding:24px 16px}
+  .polaroid-grid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .login-card{padding:36px 24px}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">💙</div>
+    <div class="login-title">Acceso Especial</div>
+    <div class="login-subtitle">Solo para el cumpleañero</div>
+    <div class="input-group"><label>👤</label><input type="text" class="login-input" id="login-user" placeholder="Usuario" autocomplete="off"></div>
+    <div class="input-group"><label>🔒</label><input type="password" class="login-input" id="login-pass" placeholder="Contraseña"></div>
+    <button class="login-btn" onclick="doLogin()">✨ Entrar al universo</button>
+    <div class="login-error" id="login-error"></div>
+    <div class="login-hint">// acceso restringido · solo para Yusepf 💙</div>
+  </div>
+</div>
+
+<audio id="champions-audio" loop><source src="champions_hymn.mp3" type="audio/mpeg"></audio>
+
+<!-- APP -->
+<div id="app">
+  <section class="hero">
+    <div class="hero-bg-circle c1"></div><div class="hero-bg-circle c2"></div><div class="hero-bg-circle c3"></div>
+    <div class="hero-tag">🏆 Cuenta regresiva épica · Para Yusepf Zafra</div>
+    <h1 class="hero-title"><span class="blue">El Mejor</span><br><span class="gold">Chiquibaby</span><br>del Mundo</h1>
+    <p class="hero-subtitle">Preparado con todo el amor del mundo por tu Reyna 👑<br>10 días · 10 retos · 10 cartas · 1 amor infinito</p>
+    <div class="audio-bar" id="audio-toggle" onclick="toggleAudio()">
+      <span style="font-size:20px">🎵</span>
+      <span class="audio-bar-text">Himno de la Champions</span>
+      <div class="audio-waves"><div class="audio-wave"></div><div class="audio-wave"></div><div class="audio-wave"></div><div class="audio-wave"></div><div class="audio-wave"></div></div>
+    </div>
+    <div class="countdown-container" id="countdown-display">
+      <div class="countdown-item"><span class="countdown-number" id="cd-days">00</span><span class="countdown-label">Días</span></div>
+      <div class="countdown-item"><span class="countdown-number" id="cd-hours">00</span><span class="countdown-label">Horas</span></div>
+      <div class="countdown-item"><span class="countdown-number" id="cd-mins">00</span><span class="countdown-label">Minutos</span></div>
+      <div class="countdown-item"><span class="countdown-number" id="cd-secs">00</span><span class="countdown-label">Segundos</span></div>
+    </div>
+    <div id="birthday-banner" style="display:none" class="birthday-msg">🎂 ¡Feliz Cumpleaños Chiquibaby! 🎂</div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <section class="section">
+    <h2 class="section-title">📸 Nuestros Momentos</h2>
+    <div class="section-divider"></div>
+    <div class="polaroid-grid" id="polaroid-gallery"></div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <div class="progress-section">
+    <div class="progress-label"><span>🏆 TU AVENTURA</span><span id="progress-text">0 / 10 retos completados</span></div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+  </div>
+
+  <section class="section">
+    <h2 class="section-title">🗓️ Los 10 Días</h2>
+    <div class="section-divider"></div>
+    <div class="days-grid" id="days-grid"></div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <section class="section">
+    <h2 class="section-title">🔍 Las Pistas del Misterio</h2>
+    <div class="section-divider"></div>
+    <div class="pistas-board">
+      <div class="pistas-board-title">🎁 ¿Qué es tu regalo?</div>
+      <div class="pistas-board-sub">Completa cada reto diario para revelar una pista nueva</div>
+      <div class="pistas-grid" id="pistas-grid"></div>
+    </div>
+  </section>
+
+  <div class="section-separator"></div>
+
+  <section class="section">
+    <div class="love-note">
+      <div class="love-note-text">"Un año tiene 365 días... y yo deseo pasar 1.289.829.383.190.829.832.983.192.831.928.319.283.918.390.183.912.839.128.319.283.912.083.910.283.182.781.307.481.784.712.832.908.293.892.831.982.918.329.183.921.831.929.839.839.137.483.178.037.810.783.113 días junto a ti. Y muchos más. Ujummmmmm 😏💙"</div>
+      <div class="love-note-sign">— Tu Reyna, Nathalia 👑</div>
+    </div>
+  </section>
+  <div class="footer">HECHO CON 💙 POR NATHALIA · PARA YUSEPF · 21 MARZO 2026</div>
+</div>
+
+<div class="ujumm-bubble" onclick="showUjumm()" id="ujumm-btn">😏</div>
+<div class="ujumm-tooltip" id="ujumm-tooltip">Ujummmmmm... 😏💙<br><small>Te amo Sefis</small></div>
+
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+// STARS
+const starsEl=document.getElementById('stars');
+for(let i=0;i<120;i++){const s=document.createElement('div');s.className='star';const sz=Math.random()*3+1;s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--dur:${Math.random()*4+2}s;--delay:${Math.random()*4}s;`;starsEl.appendChild(s);}
+
+// STATE
+const completedDays=JSON.parse(localStorage.getItem('yusepf_v2')||'[]');
+function saveState(){localStorage.setItem('yusepf_v2',JSON.stringify(completedDays));}
+
+// PISTAS
+const PISTAS=[
+  {num:1,text:"Chiquibaby, hoy empieza la cuenta regresiva más especial de mi vida. 10 días para celebrar que existes, que llegaste, que te quedaste. Que este juego sea el inicio de todo lo que viene. Te amo más de lo que cualquier número puede contar. 🤫"},
+  {num:2,text:"Si el amor fuera fútbol, tú serías Messi: imposible de marcar, único en tu clase, y el que hace que todo el estadio de mi corazón se ponga de pie. Eres mi jugada favorita, Sefis. 📐"},
+  {num:3,text:"Dicen que la Champions es el trofeo más difícil de ganar... pero yo ya gané el mío el día que te tuve a mi lado. Tú eres mi Copa, mi temporada perfecta, mi título eterno. Ujummmmmm 😏 🔥"},
+  {num:4,text:"Hay algo en tus manos que me detiene el tiempo, algo en tus palabras que me llena de calma. No sé cómo explicarlo, pero desde que llegaste todo lo que soy tiene más sentido cuando estás cerca. 🌟"},
+  {num:5,text:"Todavía recuerdo ese atardecer. El cielo se pintó de naranja y tú, sin saberlo, me cambiaste la vida con unas pocas palabras. Desde ese día, cada atardecer me recuerda que el momento más bonito de mi vida fue ese — y que quiero seguir viéndolos todos contigo. 🌍🏆"},
+  {num:6,text:"Quiero estar en cada uno de tus cumpleaños. Quiero ser la primera en escribirte, la que te abraza fuerte, la que te prepara algo especial. Quiero verte envejecer y seguir siendo el mismo Chiquibaby que me roba las sonrisas. Cada año a tu lado es el mejor regalo que la vida me da. ✨"},
+  {num:7,text:"Messi tiene el Balón de Oro, el Mundial, la Champions... pero yo tengo algo que él no tiene: tenerte a ti. Y eso, Sefis, vale más que todos los trofeos del mundo juntos.  😊"},
+  {num:8,text:"Si pudiera pintar el momento en que me enamoré, pintaría un cielo tuyo, una azotea y tus ojos. Pintaría el silencio antes de que hablaras, y ese instante en que mi mundo dejó de ser el mismo. 💙"},
+  {num:9,text:"Mañana cumples años y yo solo puedo pensar en lo afortunada que soy. De todos los lugares del mundo, la vida nos puso en la misma iglesia. De todas las personas, tú fuiste quien me invitó a ver un atardecer. Y de todos los momentos, ese fue el que lo cambió todo. Gracias por existir, mi Sefis. Mañana te lo demuestro. Ujummmmmm 😏💙"},
+  {num:10,text:"Tu eres mi champions, Feliz cumpleaños amor mio 🎨🏆❤️"},
+];
+
+// DAYS
+const DAYS=[
+  {date:'2026-03-11',icon:'🚀',title:'Bienvenido, Babyy',desc:'El inicio de la cuenta regresiva más especial',type:'quiz_relacion'},
+  {date:'2026-03-12',icon:'⚽',title:'El Examen Barcelonista',desc:'¿Cuánto sabes del mejor equipo del mundo?',type:'quiz_barca'},
+  {date:'2026-03-13',icon:'🤔',title:'La Gran Pregunta',desc:'Una pregunta sin respuesta incorrecta... o sí?',type:'pregunta'},
+  {date:'2026-03-14',icon:'💬',title:'Completa las Frases',desc:'¿Te sabes nuestras frases de memoria?',type:'completar'},
+  {date:'2026-03-15',icon:'🐐',title:'Trivia Messi & Neymar',desc:'Quiz del GOAT y el 11',type:'quiz_messi'},
+  {date:'2026-03-16',icon:'❤️',title:'Nuestra Historia',desc:'¿Recuerdas cada detalle de nosotros?',type:'quiz_nosotros'},
+  {date:'2026-03-17',icon:'✏️',title:'Crucigrama del Amor',desc:'Fútbol + amor en un crucigrama',type:'crucigrama'},
+  {date:'2026-03-18',icon:'🔮',title:'¿Es momento de la verdas?',desc:'Es momento de ser sinceros',type:'quiz_regalo'},
+  {date:'2026-03-19',icon:'🌟',title:'¿Leiste la biblia hoy?',desc:'Quiz de un versiculo',type:'completar2'},
+  {date:'2026-03-20',icon:'💌',title:'Carta de tu Reyna',desc:'Una carta especial para la víspera',type:'carta'},
+];
+
+// MSGS
+const MSGS={
+  quiz_relacion:'¡Chiquibaby! Responde estas preguntas y revelarás un mensaje hermoso para ti 🎁✨',
+  quiz_barca:'¡Sefis! Demuestra cuánto sabes del Barça y descubre un mensaje de amor 🔵🔴🔍',
+  pregunta:'¡Hoy no hay respuesta correcta... o tal vez sí! 😏 Elige sabiamente, Sefis 🤔',
+  completar:'¿Te sabes nuestras frases de memoria? Completa bien y revela la carta del día 😏',
+  quiz_messi:'¡El día de los genios! Quiz de Messi y Neymar. ¡La carta te espera! 🐐',
+  quiz_nosotros:'Demuestra que te sabes nuestra historia al dedillo 🥰 La carta te espera...',
+  crucigrama:'¡Completa el crucigrama y descubre tu siguiente carta! 💙',
+  quiz_regalo:'Cada vez estamos mas cerca de tu día🤔🎁',
+  completar2:'Segun 1 Corintios 13:4-7 responde... 🤔🎁',
+  carta:'Mi carta para ti, Sefis. La última pista te espera al final... 💌',
+};
+
+// LOGIN
+function doLogin(){
+  const u=document.getElementById('login-user').value.trim();
+  const p=document.getElementById('login-pass').value.trim();
+  const err=document.getElementById('login-error');
+  if(u==='Yuspipapacito'&&p==='Nathaliateamo'){
+    const ls=document.getElementById('login-screen');
+    ls.style.opacity='0';
+    setTimeout(()=>{ls.style.display='none';document.getElementById('app').style.display='block';document.getElementById('ujumm-btn').style.display='flex';startApp();},800);
+  } else {
+    err.textContent='❌ Datos incorrectos, inténtalo de nuevo';
+    ['login-user','login-pass'].forEach(id=>{document.getElementById(id).style.borderColor='#f87171';setTimeout(()=>document.getElementById(id).style.borderColor='',1500);});
+  }
+}
+document.getElementById('login-user').addEventListener('keydown',e=>e.key==='Enter'&&doLogin());
+document.getElementById('login-pass').addEventListener('keydown',e=>e.key==='Enter'&&doLogin());
+
+// AUDIO
+let audioPlaying=false;
+const audio=document.getElementById('champions-audio');
+audio.volume=0.55;
+function toggleAudio(){
+  const bar=document.getElementById('audio-toggle');
+  if(audioPlaying){audio.pause();bar.classList.add('audio-paused');audioPlaying=false;}
+  else{audio.play().catch(()=>{});bar.classList.remove('audio-paused');audioPlaying=true;}
+}
+
+function startApp(){
+  setTimeout(()=>audio.play().then(()=>audioPlaying=true).catch(()=>{}),1200);
+  initCountdown(); initGallery(); initDays(); initPistasBoard(); updateProgress();
+}
+
+// COUNTDOWN
+function initCountdown(){
+  const bd=new Date('2026-03-21T00:00:00');
+  function upd(){
+    const d=bd-new Date();
+    if(d<=0){document.getElementById('countdown-display').style.display='none';document.getElementById('birthday-banner').style.display='block';launchConfetti();return;}
+    document.getElementById('cd-days').textContent=String(Math.floor(d/86400000)).padStart(2,'0');
+    document.getElementById('cd-hours').textContent=String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+    document.getElementById('cd-mins').textContent=String(Math.floor(d%3600000/60000)).padStart(2,'0');
+    document.getElementById('cd-secs').textContent=String(Math.floor(d%60000/1000)).padStart(2,'0');
+  }
+  upd();setInterval(upd,1000);
+}
+
+// GALLERY
+const PHOTOS=[
+  {e:'💙',c:'Nuestra historia',f:'imagen1.png'},
+  {e:'🌅',c:'El atardecer',f:'imagen2.png'},
+  {e:'⛪',c:'Mi Messi',f:'imagen3.png'},
+  {e:'🥰',c:'Siempre juntos',f:'imagen4.png'},
+  {e:'🏡',c:'La azotea mágica',f:'imagen5.png'},
+  {e:'🎂',c:'Celebrando',f:'imagen6.png'},
+  {e:'🍝',c:'Cocinando pasta',f:'imagen7.png'},
+  {e:'👫',c:'Nosotros',f:'imagen8.png'},
+  {e:'💑',c:'Mi abrazo favorito',f:'imagen9.png'},
+  {e:'🌙',c:'Noches contigo',f:'imagen10.png'},
+  {e:'🎮',c:'Nustras manos',f:'imagen11.png'},
+  {e:'💌',c:'Te amo',f:'imagen12.png'},
+];
+const ROTS=[-4,-2,3,-1,5,-3,2,-5,4,-2,3,-4];
+function initGallery(){
+  const g=document.getElementById('polaroid-gallery');
+  PHOTOS.forEach((p,i)=>{
+    const d=document.createElement('div');d.className='polaroid';d.style.setProperty('--rot',ROTS[i]+'deg');
+    d.innerHTML=`<div class="polaroid-img"><img src="${p.f}" alt="${p.c}" onerror="this.style.display='none';this.parentElement.innerHTML='<span style=\\'font-size:48px\\'>${p.e}</span>';"></div><div class="polaroid-caption">${p.c}</div>`;
+    g.appendChild(d);
+  });
+}
+
+// DAYS
+function getDayStatus(ds){const d=new Date(ds+'T00:00:00'),t=new Date();t.setHours(0,0,0,0);if(d>t)return'locked';if(completedDays.includes(ds))return'completed';return'unlocked';}
+function fmtDate(ds){return new Date(ds+'T12:00:00').toLocaleDateString('es-CO',{day:'numeric',month:'short'});}
+
+function initDays(){
+  const g=document.getElementById('days-grid');
+  DAYS.forEach((day,i)=>{
+    const st=getDayStatus(day.date);
+    const d=document.createElement('div');d.className=`day-card ${st}`;
+    d.innerHTML=`
+      <div class="day-status">${st==='locked'?'🔒':st==='completed'?'✅':'✨'}</div>
+      <span class="day-icon">${st==='locked'?'🔒':day.icon}</span>
+      <div class="day-number">Día ${i+1} · ${fmtDate(day.date)}</div>
+      <div class="day-title">${st==='locked'?'Bloqueado':day.title}</div>
+      <div class="day-desc">${st==='locked'?'Se desbloquea el '+fmtDate(day.date):day.desc}</div>
+      ${st!=='locked'?`<div class="day-badge">🔍 Revela Pista #${i+1}</div>`:''}
+    `;
+    if(st!=='locked')d.onclick=()=>openDay(i);
+    g.appendChild(d);
+  });
+}
+
+function updateProgress(){
+  const done=completedDays.length;
+  document.getElementById('progress-text').textContent=`${done} / 10 retos completados`;
+  document.getElementById('progress-fill').style.width=(done/10*100)+'%';
+}
+
+// PISTAS BOARD
+function initPistasBoard(){
+  const g=document.getElementById('pistas-grid');
+  PISTAS.forEach((p,i)=>{
+    const ds=DAYS[i].date, revealed=completedDays.includes(ds);
+    const d=document.createElement('div');d.className=`pista-card ${revealed?'revealed':'locked-pista'}`;d.id=`pboard-${i}`;
+    d.innerHTML=revealed?
+      `<div class="pista-num">🔍 Pista #${p.num}</div><div class="pista-text">"${p.text}"</div><div class="pista-from">Revelada el Día ${i+1}</div>`:
+      `<div class="pista-num">Pista #${p.num}</div><div class="pista-lock-icon">🔒</div><div class="pista-lock-text">Completa el reto del Día ${i+1} para revelar esta pista</div>`;
+    g.appendChild(d);
+  });
+}
+
+function revealPistaOnBoard(i){
+  const d=document.getElementById(`pboard-${i}`);if(!d)return;
+  const p=PISTAS[i];
+  d.className='pista-card revealed pista-pop';
+  d.innerHTML=`<div class="pista-num">🔍 Pista #${p.num}</div><div class="pista-text">"${p.text}"</div><div class="pista-from">Revelada el Día ${i+1}</div>`;
+}
+
+function markComplete(dateStr,pistaIdx){
+  if(!completedDays.includes(dateStr)){
+    completedDays.push(dateStr);saveState();updateProgress();
+    setTimeout(()=>revealPistaOnBoard(pistaIdx),2200);
+  }
+}
+
+// MODAL
+function openDay(i){
+  const day=DAYS[i];
+  const body=document.getElementById('modal-body');
+  let html=`<div class="modal-day-label">Día ${i+1} · ${fmtDate(day.date)}</div><div class="modal-title">${day.icon} ${day.title}</div><div class="modal-message">${MSGS[day.type]}</div>`;
+  if(day.type==='quiz_relacion') html+=buildQuiz(QREL,day.date,i);
+  else if(day.type==='quiz_barca') html+=buildQuiz(QBARCA,day.date,i);
+  else if(day.type==='pregunta') html+=buildPregunta(day.date,i);
+  else if(day.type==='completar') html+=buildCompletar(FRASES1,day.date,i);
+  else if(day.type==='quiz_messi') html+=buildQuiz(QMESSI,day.date,i);
+  else if(day.type==='quiz_nosotros') html+=buildQuiz(QNOS,day.date,i);
+  else if(day.type==='crucigrama') html+=buildCrucigrama(day.date,i);
+  else if(day.type==='quiz_regalo') html+=buildQuiz(QREGALO,day.date,i);
+  else if(day.type==='completar2') html+=buildCompletar(FRASES2,day.date,i);
+  else if(day.type==='carta') html+=buildCarta(day.date,i);
+  html+=buildPistaRevealBox(i,day.date);
+  body.innerHTML=html;
+  document.getElementById('modal').classList.add('active');
+  // no init needed for pregunta
+  if(day.type==='crucigrama') setTimeout(()=>initCW(day.date,i),80);
+}
+function closeModal(){document.getElementById('modal').classList.remove('active');}
+function closeModalOutside(e){if(e.target===document.getElementById('modal'))closeModal();}
+
+function buildPistaRevealBox(i,ds){
+  const p=PISTAS[i],revealed=completedDays.includes(ds);
+  return `<div class="pista-reveal-box" id="pbox-${i}" style="display:${revealed?'block':'none'}">
+    <div class="pista-reveal-header"><span class="pista-reveal-icon">🔍</span><span class="pista-reveal-label">¡Pista #${p.num} desbloqueada!</span></div>
+    <div class="pista-reveal-body"><div class="pista-reveal-text">"${p.text}"</div><div class="pista-reveal-hint">Esta pagina tiene algo especial no crees? 🤫</div></div>
+  </div>`;
+}
+
+function showPistaBox(i){
+  const el=document.getElementById(`pbox-${i}`);
+  if(el){el.style.display='block';el.classList.add('slide-in');launchConfetti();}
+}
+
+// QUIZ ENGINE
+const QS={};
+function buildQuiz(qs,ds,pi){
+  QS[ds]={qs,cur:0,score:0,pi};
+  const q=qs[0];
+  return `<div id="qwrap-${ds}">
+    <div class="quiz-score" id="qscore-${ds}">Pregunta 1 de ${qs.length} · Puntos: 0</div>
+    <div class="quiz-question" id="qq-${ds}">${q.q}</div>
+    <div class="quiz-options" id="qopts-${ds}">${q.opts.map((o,i)=>`<div class="quiz-option" onclick="answerQ('${ds}',${i})">${o}</div>`).join('')}</div>
+    <div class="quiz-feedback" id="qfb-${ds}"></div>
+    <button class="btn-next" id="qnext-${ds}" onclick="nextQ('${ds}')" style="display:none">Siguiente →</button>
+  </div>`;
+}
+function answerQ(ds,oi){
+  const s=QS[ds],q=s.qs[s.cur];
+  const opts=document.querySelectorAll(`#qopts-${ds} .quiz-option`);
+  opts.forEach(o=>o.classList.add('disabled'));
+  if(oi===q.correct){opts[oi].classList.add('correct');s.score++;document.getElementById(`qfb-${ds}`).innerHTML='✅ '+(q.ok||'¡Correcto!');document.getElementById(`qfb-${ds}`).style.color='#6ee7b7';}
+  else{opts[oi].classList.add('wrong');opts[q.correct].classList.add('correct');document.getElementById(`qfb-${ds}`).innerHTML='❌ '+(q.err||'La correcta está marcada');document.getElementById(`qfb-${ds}`).style.color='#fca5a5';}
+  const nb=document.getElementById(`qnext-${ds}`);
+  nb.textContent=s.cur<s.qs.length-1?'Siguiente →':'🎉 Ver resultado';nb.style.display='block';
+}
+function nextQ(ds){
+  const s=QS[ds];s.cur++;
+  if(s.cur>=s.qs.length){showQResult(ds);return;}
+  const q=s.qs[s.cur];
+  document.getElementById(`qscore-${ds}`).textContent=`Pregunta ${s.cur+1} de ${s.qs.length} · Puntos: ${s.score}`;
+  document.getElementById(`qq-${ds}`).textContent=q.q;
+  document.getElementById(`qopts-${ds}`).innerHTML=q.opts.map((o,i)=>`<div class="quiz-option" onclick="answerQ('${ds}',${i})">${o}</div>`).join('');
+  document.getElementById(`qfb-${ds}`).textContent='';
+  document.getElementById(`qnext-${ds}`).style.display='none';
+}
+function showQResult(ds){
+  const s=QS[ds];const pct=Math.round(s.score/s.qs.length*100);
+  const emoji=pct>=80?'🏆':pct>=50?'⭐':'💙';
+  const msg=pct>=80?'¡Eres increíble, Sefis!':pct>=50?'¡Muy bien, Chiquibaby!':'¡El amor es lo que importa!';
+  document.getElementById(`qwrap-${ds}`).innerHTML=`<div class="celebration"><div class="celebration-emoji">${emoji}</div><div class="celebration-text">${msg}</div><div class="celebration-sub">${s.score}/${s.qs.length} correctas · ${pct}%</div><p style="margin-top:12px;color:rgba(255,255,255,0.4);font-size:13px;font-family:'Space Mono',monospace;">Revelando tu pista...</p></div>`;
+  markComplete(ds,s.pi);
+  setTimeout(()=>showPistaBox(s.pi),1800);
+}
+
+// QUIZZES DATA
+const QREL=[
+  {q:'¿En qué evento especial te vi por primera vez?',opts:['En una fiesta','En la iglesia','En la universidad','En el trabajo'],correct:1,ok:'¡Fuimos pareja en esa boda! 💒',err:'¡Fuimos pareja en una boda y te vi en la iglesia! 💒'},
+  {q:'¿Dónde me declaraste tú amor?',opts:['En un restaurante','En el parque','En la azotea viendo el atardecer','En el cine'],correct:2,ok:'¡Ese atardecer es para siempre! 🌅',err:'Fue en la azotea de mi casa viendo el atardecer 🌅'},
+  {q:'¿Cuánto tiempo llevamos juntos?',opts:['1 año','Casi 3 años','5 años','6 meses'],correct:1,ok:'¡En junio cumplimos 3 años! ❤️',err:'¡Casi 3 años! En junio los cumplimos ❤️'},
+  {q:'¿Cómo te llamo yo a ti?',opts:['Mi vida','Chiquibaby / Mi Sefis','Bebé','Amor'],correct:1,ok:'¡Sí! Eres mi Chiquibaby y mi Sefis y todas las demas jajaj😍',err:'Eres mi Chiquibaby y mi Sefis y todas las demas jajaj 😍'},
+  {q:'¿Qué momento especial me moria de los nervios contigo?',opts:['Cuando conoci a tus tios','Cuando oraron por nosotros en la iglesia agarrados de la mano','Cuando nos conocimos','Fue una sorpresa'],correct:1,ok:'¡Tan nerviosos pero tan juntos! 🙏',err:'Oraron por nosotros agarrados de la mano 🙏'},
+];
+const QBARCA=[
+  {q:'¿En qué año fue fundado el FC Barcelona?',opts:['1895','1899','1902','1910'],correct:1,ok:'¡Correcto! 1899 por Joan Gamper 🔵🔴',err:'El Barça fue fundado en 1899 🔵🔴'},
+  {q:'¿Cuántas Champions League ha ganado el Barcelona?',opts:['3','4','5','6'],correct:2,ok:'¡Cinco Copas de Europa! 🏆🏆🏆🏆🏆',err:'El Barça ha ganado 5 Champions 🏆'},
+  {q:'¿Cuál es el lema del FC Barcelona?',opts:['"Visca el Barça"','"Més que un club"','"El mejor del mundo"','"Força Barça"'],correct:1,ok:'¡Más que un club! 💙❤️',err:'"Més que un club" es el lema 💙'},
+  {q:'¿Quién es el máximo goleador histórico del Barça?',opts:['Ronaldinho','Xavi','Messi','Suárez'],correct:2,ok:'¡El GOAT! Messi, siempre 🐐',err:'Messi es el máximo goleador histórico 🐐'},
+  {q:'¿De qué color es el uniforme local del Barcelona?',opts:['Rojo y amarillo','Azul y grana','Azul y blanco','Rojo y negro'],correct:1,ok:'¡Azul y grana! Los colores del alma 💙❤️',err:'Azul y grana, ¡los colores del alma! 💙'},
+];
+const QMESSI=[
+  {q:'¿En qué ciudad nació Messi?',opts:['Buenos Aires','Córdoba','Rosario','Mendoza'],correct:2,ok:'¡Rosario, Argentina! 🇦🇷',err:'Messi nació en Rosario, Argentina 🇦🇷'},
+  {q:'¿Cuántos Balones de Oro ha ganado Messi?',opts:['6','7','8','9'],correct:2,ok:'¡8 Balones de Oro! El más grande 🏅',err:'Messi ha ganado 8 Balones de Oro 🏅'},
+  {q:'¿Con qué país ganó Messi el Mundial 2022?',opts:['España','Argentina','Francia','Brasil'],correct:1,ok:'¡Qatar 2022! La imagen más épica del fútbol 🏆🇦🇷',err:'Messi ganó el Mundial con Argentina en Qatar 2022 🏆'},
+  {q:'¿Con qué equipo ganó Neymar la Champions League?',opts:['PSG','Santos','Barcelona','Al-Hilal'],correct:2,ok:'¡Con el Barcelona en 2015! 🔵🔴🏆',err:'Neymar ganó la Champions con el Barcelona en 2015 🏆'},
+  {q:'¿Cuál es el número icónico de Messi?',opts:['7','9','10','11'],correct:2,ok:'¡El 10! El número del genio 🔟',err:'El número 10, el de los grandes genios 🔟'},
+];
+const QNOS=[
+  {q:'¿Cual es el apodo  que mas me dices?',opts:['Mi amor','Reyna','Mi vida','Princesa'],correct:1,ok:'¡Reyna! Porque me tienes consentida 👑',err:'Me llamas Reyna 👑'},
+  {q:'¿Que es lo qu emas me encanta de ti?',opts:['Tus ojos','Todoooo 😏','tus manos','Tu voz'],correct:1,ok:'¡Ujummmmmm! Solo nosotros entendemos eso 😏',err:'¡Ujummmmmm! Ese es solo nuestro 😏'},
+  {q:'¿Qué ama cocinar Yusepf?',opts:['Arroz','Pizza','Pasta','Sopa'],correct:2,ok:'¡La pasta! Y la hace deliciosa 🍝',err:'Le encanta cocinar pasta 🍝'},
+  {q:'¿Cuál es tu postre favorito?',opts:['helado','La genovesa','Sancocho','brownie'],correct:1,ok:'¡La genovesa! 🍲',err:'La genovesa es su favorita 🍲'},
+];
+const QREGALO=[
+  {q:'¿del 1 al 10 que tanto me amas?',opts:['No hay numeros para este amor','un 8','un 0','un 10 claro'],correct:0,ok:'JJAJAAJJA TE AMO MASSS😉',err:'JJAJAAJJA TE AMO MASSS 😉'},
+  {q:'¿Te gusto este regalito (la pagina)?',opts:['siiii','No me gusto','Me encanto mucho reyna me flechas','que cosa tan fea'],correct:2,ok:'¡con todo mi amor para ti!',err:'¡con todo mi amor para ti!'},
+];
+
+// FRASES
+const FRASES1=[
+  {t:'En junio cumplimos ___ años juntos.',b:'tres',h:'número'},
+  {t:'Nos conocimos en la ___.',b:'iglesia',h:'lugar'},
+  {t:'Mi Sefis me llama ___.',b:'Reyna',h:'como me dices'},
+  {t:'tu mes de cumple es ___.',b:'marzo',h:'muy facill'},
+  {t:'El equipo favorito de Yusepf es el ___.',b:'Barcelona',h:'equipo'},
+];
+const FRASES2=[
+  {t:'El amor es ___ es bondadoso.',b:'paciente',h:'-'},
+  {t:'El amor no es ___ ni presumido ni orgulloso.',b:'envidioso',h:'-'},
+  {t:'No se comporta con ___ ',b:'rudeza',h:'-'},
+  {t:' no es ___ no se enoja fácilmente, no guarda rencor.',b:'egoista',h:'-'},
+];
+
+function buildCompletar(frases,ds,pi){
+  // Store frases in a global map to avoid JSON-in-HTML attribute bug
+  window['_frases_'+ds]=frases;
+  return `<div id="cmp-${ds}">
+    ${frases.map((f,i)=>{const pts=f.t.split('___');return `<div class="complete-phrase">${pts[0]}<span class="phrase-blank"><input class="phrase-input" id="ci-${ds}-${i}" placeholder="${f.h}" style="min-width:${Math.max(f.b.length*15,70)}px"></span>${pts[1]}</div>`;}).join('')}
+    <button class="check-btn" onclick="checkCompletar('${ds}',${pi})">✅ Verificar respuestas</button>
+    <div id="cmpres-${ds}" style="text-align:center;margin-top:14px;font-size:16px;font-weight:700;min-height:24px;"></div>
+  </div>`;
+}
+function checkCompletar(ds,pi){
+  const frases=window['_frases_'+ds];
+  if(!frases)return;
+  let ok=0;
+  frases.forEach((f,i)=>{
+    const v=document.getElementById(`ci-${ds}-${i}`).value.trim().toLowerCase();
+    const e=f.b.toLowerCase();
+    const correct=v===e||v.includes(e)||e.includes(v);
+    document.getElementById(`ci-${ds}-${i}`).style.color=correct?'#6ee7b7':'#fca5a5';
+    if(correct)ok++;
+  });
+  const pct=Math.round(ok/frases.length*100);
+  const r=document.getElementById(`cmpres-${ds}`);
+  if(pct>=60){
+    r.innerHTML=`🏆 ¡${ok}/${frases.length} correctas! Revelando pista... 💙`;r.style.color='#6ee7b7';
+    markComplete(ds,pi);setTimeout(()=>showPistaBox(pi),1800);
+  } else {r.innerHTML=`💙 ${ok}/${frases.length} correctas. ¡Inténtalo de nuevo!`;r.style.color='#fcd34d';}
+}
+
+// PREGUNTA DIVERTIDA (reemplaza la sopa de letras)
+function buildPregunta(ds,pi){
+  return `<div id="preg-${ds}" style="text-align:center;">
+    <div style="font-size:64px;margin-bottom:20px;">🤔</div>
+    <div style="font-family:'Playfair Display',serif;font-size:clamp(17px,3.5vw,24px);line-height:1.7;color:white;margin-bottom:32px;padding:24px;background:rgba(255,255,255,0.05);border-radius:16px;border:1px solid rgba(96,165,250,0.2);">
+      Si pudieras elegir UNA sola cosa...<br>
+      <span style="color:var(--gold-light);font-style:italic;">¿Qué elegirías?</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:500px;margin:0 auto;">
+      <button class="preg-btn" onclick="responderPregunta('${ds}',${pi},'A',this)" style="padding:20px 24px;background:rgba(59,130,246,0.15);border:2px solid rgba(96,165,250,0.4);border-radius:16px;color:white;font-family:'Nunito',sans-serif;font-size:16px;cursor:pointer;transition:all 0.3s;text-align:left;line-height:1.5;">
+        ⚽ <strong>Opción A:</strong> Que Messi vuelva al Barcelona y gane la Champions juntos, tú en el estadio viéndolo en vivo
+      </button>
+      <button class="preg-btn" onclick="responderPregunta('${ds}',${pi},'B',this)" style="padding:20px 24px;background:rgba(244,114,182,0.15);border:2px solid rgba(244,114,182,0.4);border-radius:16px;color:white;font-family:'Nunito',sans-serif;font-size:16px;cursor:pointer;transition:all 0.3s;text-align:left;line-height:1.5;">
+        🎮 <strong>Opción B:</strong> Que Neymar llegue a tu casa y jueguen una recocha épica de videojuegos toda la noche
+      </button>
+    </div>
+    <div id="preg-res-${ds}" style="margin-top:24px;min-height:60px;"></div>
+  </div>`;
+}
+
+function responderPregunta(ds,pi,opcion,btn){
+  // Deshabilitar ambos botones
+  document.querySelectorAll(`#preg-${ds} .preg-btn`).forEach(b=>{
+    b.style.cursor='default';
+    b.style.opacity='0.6';
+    b.onclick=null;
+  });
+  // Resaltar el elegido
+  btn.style.opacity='1';
+  btn.style.borderColor='var(--gold)';
+  btn.style.background='rgba(245,158,11,0.2)';
+  btn.style.transform='scale(1.02)';
+
+  const respuestas={
+    A:[
+      '¡Qué interesante respuesta! 👀 El Barça + Messi + tú en el estadio... eso sería HISTÓRICO. Aunque conociéndote, llorarías de emoción 😂🏆',
+      '¡Ujummmmmm! 😏 Así que prefieres ver a tu GOAT en vivo... eso dice mucho de ti, Sefis',
+    ],
+    B:[
+      '¡Qué interesante respuesta! 🎮 Neymar en tu casa jugando contigo... ya te imagino presumiéndolo en el barrio 😂⚽',
+      '¡Ujummmmmm! 😏 La recocha con Ney antes que ver a Messi... no te lo esperaba, Chiquibaby',
+    ]
+  };
+  const msgs=respuestas[opcion];
+  const msg=msgs[Math.floor(Math.random()*msgs.length)];
+
+  setTimeout(()=>{
+    const r=document.getElementById(`preg-res-${ds}`);
+    r.innerHTML=`
+      <div style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-radius:16px;padding:20px;animation:fadeUp 0.5s ease;">
+        <div style="font-size:32px;margin-bottom:8px;">😄</div>
+        <div style="font-family:'Playfair Display',serif;font-style:italic;font-size:16px;color:var(--gold-light);line-height:1.7;">${msg}</div>
+        <button class="check-btn" style="margin-top:16px;" onclick="markComplete('${ds}',${pi});this.textContent='✅ ¡Pista revelada!';setTimeout(()=>showPistaBox(${pi}),400);">
+          🔍 Revelar mi pista del día
+        </button>
+      </div>`;
+  },600);
+}
+
+// CRUCIGRAMA — Palabras se cruzan compartiendo letras:
+// Diseño verificado (8 filas x 10 cols):
+//
+// col: 0  1  2  3  4  5  6  7  8  9
+// r0:  .  .  N  .  .  M  E  S  S  I   ← 2→ MESSI (M comparte con 4↓MARZO)
+// r1:  .  P  A  S  T  A  .  .  .  .   ← 3→ PASTA (A[r1c2] cruza 1↓NATHALIA; A[r1c5] cruza 4↓MARZO)
+// r2:  .  .  T  .  .  R  .  .  .  .
+// r3:  .  .  H  .  .  Z  .  .  .  .
+// r4:  .  .  A  .  .  O  .  .  .  .
+// r5:  .  .  L  .  .  .  .  .  .  .
+// r6:  .  .  I  .  .  .  .  .  .  .
+// r7:  .  B  A  R  C  E  L  O  N  A   ← 5→ BARCELONA (A[r7c2] cruza 1↓NATHALIA)
+//            ↑           ↑
+//        1↓NATHALIA   4↓MARZO
+
+function buildCrucigrama(ds,pi){
+  return `
+  <p style="text-align:center;color:rgba(255,255,255,0.5);font-size:13px;margin-bottom:16px;">Las palabras comparten letras donde se cruzan ✏️</p>
+  <div class="crossword-container"><div id="cwg-${ds}"></div></div>
+  <div class="clues">
+    <div><h4>→ HORIZONTAL</h4>
+      <div class="clue-item">2→ Tu jugador favorito (5 letras)</div>
+      <div class="clue-item">3→ La receta que más preparas (5)</div>
+      <div class="clue-item">5→ Tu equipo favorito (9)</div>
+    </div>
+    <div><h4>↓ VERTICAL</h4>
+      <div class="clue-item">1↓ El amor de tu vida (8)</div>
+      <div class="clue-item">4↓ Tu mes de cumpleaños (5)</div>
+    </div>
+  </div>
+  <button class="check-btn" style="margin-top:20px;" onclick="checkCW('${ds}',${pi})">✅ Verificar crucigrama</button>
+  <div id="cwres-${ds}" style="text-align:center;margin-top:12px;font-weight:700;font-size:15px;min-height:24px;"></div>`;
+}
+
+function initCW(ds,pi){
+  const ROWS=8, COLS=10;
+  const A={};
+
+  // 1↓ NATHALIA — vertical col2, filas 0-7
+  // N=r0c2, A=r1c2(cruza PASTA), T=r2c2, H=r3c2, A=r4c2, L=r5c2, I=r6c2, A=r7c2(cruza BARCELONA)
+  'NATHALIA'.split('').forEach((l,i) => A[`${i}-2`] = l);
+
+  // 2→ MESSI — horizontal fila 0, cols 5-9
+  // M=r0c5 (comparte con MARZO M), E=r0c6, S=r0c7, S=r0c8, I=r0c9
+  'MESSI'.split('').forEach((l,i) => A[`0-${5+i}`] = l);
+
+  // 3→ PASTA — horizontal fila 1, cols 1-5
+  // P=r1c1, A=r1c2(cruza NATHALIA A), S=r1c3, T=r1c4, A=r1c5(cruza MARZO A)
+  'PASTA'.split('').forEach((l,i) => A[`1-${1+i}`] = l);
+
+  // 4↓ MARZO — vertical col5, filas 0-4
+  // M=r0c5(cruza MESSI M), A=r1c5(cruza PASTA A), R=r2c5, Z=r3c5, O=r4c5
+  'MARZO'.split('').forEach((l,i) => A[`${i}-5`] = l);
+
+  // 5→ BARCELONA — horizontal fila 7, cols 1-9
+  // B=r7c1, A=r7c2(cruza NATHALIA A), R=r7c3, C=r7c4, E=r7c5, L=r7c6, O=r7c7, N=r7c8, A=r7c9
+  'BARCELONA'.split('').forEach((l,i) => A[`7-${1+i}`] = l);
+
+  // Números en la celda de inicio de cada palabra
+  const NUMS = {
+    '0-2': '1',  // NATHALIA↓ empieza aquí
+    '0-5': '2/4',// MESSI→ y MARZO↓ comparten inicio (ambos empiezan con M en esta celda)
+    '1-1': '3',  // PASTA→ empieza aquí
+    '7-1': '5',  // BARCELONA→ empieza aquí
+  };
+
+  const cont = document.getElementById(`cwg-${ds}`);
+  for(let r=0; r<ROWS; r++){
+    const row = document.createElement('div');
+    row.className = 'cw-row';
+    for(let c=0; c<COLS; c++){
+      const k = `${r}-${c}`;
+      const cell = document.createElement('div');
+      cell.className = 'cw-cell';
+      if(A[k]){
+        cell.dataset.answer = A[k];
+        if(NUMS[k]){
+          const n = document.createElement('span');
+          n.className = 'cw-number';
+          n.textContent = NUMS[k];
+          cell.appendChild(n);
+        }
+        const inp = document.createElement('input');
+        inp.maxLength = 1;
+        inp.id = `cwi-${ds}-${k}`;
+        inp.addEventListener('input', function(){
+          this.value = this.value.toUpperCase().slice(-1);
+          const all = Array.from(cont.querySelectorAll('input'));
+          const idx = all.indexOf(this);
+          if(idx < all.length-1) all[idx+1].focus();
+        });
+        cell.appendChild(inp);
+      } else {
+        cell.classList.add('black');
+      }
+      row.appendChild(cell);
+    }
+    cont.appendChild(row);
+  }
+  window[`_cwa_${ds}`] = A;
+}
+function checkCW(ds,pi){
+  const A=window[`_cwa_${ds}`];let ok=0,tot=0;
+  for(const k in A){const inp=document.getElementById(`cwi-${ds}-${k}`);if(!inp)continue;tot++;const v=inp.value.toUpperCase().trim();if(v===A[k]){inp.classList.add('correct-letter');inp.classList.remove('wrong-letter');ok++;}else{inp.classList.add('wrong-letter');inp.classList.remove('correct-letter');}}
+  const pct=Math.round(ok/tot*100);
+  const r=document.getElementById(`cwres-${ds}`);
+  if(pct>=65){r.innerHTML=`🏆 ¡${ok}/${tot} correctas! ¡Revelando pista! 💙`;r.style.color='#6ee7b7';markComplete(ds,pi);setTimeout(()=>showPistaBox(pi),1800);}
+  else{r.innerHTML=`💙 ${ok}/${tot} correctas. ¡Sigue intentando!`;r.style.color='#fcd34d';}
+}
+
+// CARTA
+function buildCarta(ds,pi){
+  return `<div style="text-align:center;">
+    <div style="font-size:48px;margin-bottom:16px;">💌</div>
+    <div style="font-family:'Playfair Display',serif;font-size:clamp(14px,2.5vw,18px);line-height:2.1;color:rgba(255,255,255,0.85);font-style:italic;text-align:left;padding:24px;background:rgba(255,255,255,0.04);border-radius:16px;border-left:3px solid var(--pink);margin-bottom:20px;">
+      <p>Sefis mío,</p><br>
+      <p>Hoy cumples un año más de vida, y también un año más en el que puedo cantarte feliz cumpleaños con el corazón lleno. Hoy no es mi día... pero de todos modos lo celebro, porque cada año que tú cumples es un año más que la vida te trajo a este mundo, y eso para mí es el regalo más grande. Le doy gracias a Dios cada día por ponerte en mi camino. No me canso de agradecerle por darte la vuelta al sol, por darte vida, por darte salud — porque todo eso significa que estás aquí, que te tengo cerca, que puedo seguir siendo la persona que te quiere.</p><br>
+      <p>No sabes lo mucho que te amo. No sabes lo mucho que pienso en ti cada día, lo mucho que disfruto planear cosas especiales para ti, lo mucho que quiero verte sonreír y saber que fui yo quien puso esa sonrisa ahí. Hacerte feliz no es un esfuerzo para mí — es lo que más me gusta hacer.</p><br>
+      <p>Amo tu mirada, esa que me desarma aunque intente estar seria. Amo tus palabras tiernas, las que llegan justo cuando más las necesito. Amo tus manos, que cuando me las dan me hacen sentir que todo está bien y que nada malo puede pasarme. Amo cuando cocinas pasta con tanto amor y dedicación, como si cada plato fuera una obra de arte hecha solo para mí. Amo cada momento contigo — los grandes, los pequeños, los que nadie más ve, esos también.</p><br>
+      <p>Feliz cumpleaños, mi Chiquibaby. 🎂💙</p><br>
+      <p style="color:var(--pink)">Ujummmmmm... 😏</p>
+    </div>
+    <div style="font-family:'Space Mono',monospace;font-size:14px;color:var(--pink);margin-bottom:20px;">— Tu Reyna, Nathalia 👑</div>
+    <button class="check-btn" onclick="readCarta('${ds}',${pi},this)">💌 He leído la carta con todo mi amor</button>
+  </div>`;
+}
+function readCarta(ds,pi,btn){btn.textContent='✅ Carta leída 💙';btn.disabled=true;markComplete(ds,pi);setTimeout(()=>showPistaBox(pi),1800);}
+
+// CONFETTI
+function launchConfetti(){
+  const cols=['#3b82f6','#f59e0b','#f472b6','#34d399','#a78bfa','#60a5fa','#fcd34d'];
+  for(let i=0;i<70;i++)setTimeout(()=>{const el=document.createElement('div');el.className='confetti-piece';el.style.cssText=`left:${Math.random()*100}vw;background:${cols[Math.floor(Math.random()*cols.length)]};width:${Math.random()*10+6}px;height:${Math.random()*10+6}px;border-radius:${Math.random()>.5?'50%':'2px'};--x:${(Math.random()-.5)*200}px;animation-duration:${Math.random()*2+2}s;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);},i*25);
+}
+
+// UJUMM
+let ujv=false;
+function showUjumm(){ujv=!ujv;const t=document.getElementById('ujumm-tooltip');t.classList.toggle('show',ujv);if(ujv)setTimeout(()=>{ujv=false;t.classList.remove('show');},3000);}
+</script>
+</body>
+</html>
